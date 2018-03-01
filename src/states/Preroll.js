@@ -2,6 +2,7 @@ import videojs from 'video.js';
 
 import {AdState, ContentPlayback} from '../states.js';
 import cancelContentPlay from '../cancelContentPlay.js';
+import { isMiddlewareMediatorSupported, setTerminate } from '../playMiddleware.js';
 import adBreak from '../adBreak.js';
 
 /*
@@ -105,7 +106,12 @@ export default class Preroll extends AdState {
     player.ads.debug('Received play event (Preroll)');
 
     if (!this.inAdBreak() && !this.isContentResuming()) {
-      cancelContentPlay(this.player);
+      if (isMiddlewareMediatorSupported()) {
+        setTerminate(player, true);
+      } else {
+        setTerminate(player, false);
+        cancelContentPlay(this.player);
+      }
     }
   }
 
@@ -147,6 +153,11 @@ export default class Preroll extends AdState {
       player.clearTimeout(this._timeout);
       player.ads.adType = 'preroll';
       adBreak.start(player);
+
+      // We don't need to block play calls anymore
+      if (isMiddlewareMediatorSupported()) {
+        setTerminate(player, false);
+      }
     } else {
       videojs.log.warn('Unexpected startLinearAdMode invocation (Preroll)');
     }

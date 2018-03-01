@@ -9,6 +9,7 @@ import redispatch from './redispatch.js';
 import initializeContentupdate from './contentupdate.js';
 import adMacroReplacement from './macros.js';
 import cueTextTracks from './cueTextTracks.js';
+import { isMiddlewareMediatorSupported, playMiddleware } from './playMiddleware.js';
 
 import {BeforePreroll} from './states.js';
 
@@ -63,6 +64,11 @@ const contribAdsPlugin = function(options) {
 
   // Set up redispatching of player events
   player.on(videoEvents, redispatch);
+
+  // Register the play middleware with video.js
+  if (isMiddlewareMediatorSupported()) {
+    videojs.use('*', playMiddleware);
+  }
 
   // If we haven't seen a loadstart after 5 seconds, the plugin was not initialized
   // correctly.
