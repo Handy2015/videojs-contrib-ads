@@ -12,6 +12,10 @@ export default class BeforePreroll extends ContentState {
 
   init(player) {
     this.adsReady = false;
+
+    if (isMiddlewareMediatorSupported()) {
+      setTerminate(player, true);
+    }
   }
 
   /*
@@ -31,9 +35,7 @@ export default class BeforePreroll extends ContentState {
     player.ads.debug('Received play event (BeforePreroll)');
 
     // Don't start content playback yet
-    if (isMiddlewareMediatorSupported()) {
-      setTerminate(player, true);
-    } else {
+    if (!isMiddlewareMediatorSupported()) {
       setTerminate(player, false);
       cancelContentPlay(player);
     }
