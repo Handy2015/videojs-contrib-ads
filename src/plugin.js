@@ -167,9 +167,8 @@ const contribAdsPlugin = function(options) {
     // Are we after startLinearAdMode and before endLinearAdMode?
     _inLinearAdMode: false,
 
-    _playMiddleware: {
-      shouldTerminate: false
-    },
+    //
+    _shouldBlockPlay: false,
 
     // This is an estimation of the current ad type being played
     // This is experimental currently. Do not rely on its presence or behavior!
@@ -186,6 +185,7 @@ const contribAdsPlugin = function(options) {
       player.ads._hasThereBeenALoadedData = false;
       player.ads._hasThereBeenALoadedMetaData = false;
       player.ads._cancelledPlay = false;
+      player.ads._shouldBlockPlay = false;
       player.ads.nopreroll_ = false;
       player.ads.nopostroll_ = false;
     },
