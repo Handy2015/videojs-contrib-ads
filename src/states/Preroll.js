@@ -11,6 +11,8 @@ import adBreak from '../adBreak.js';
 export default class Preroll extends AdState {
 
   init(player, adsReady) {
+    this.resumingAfterNoAd = false;
+
     // Loading spinner from now until ad start or end of ad break.
     player.addClass('vjs-ad-loading');
 
@@ -85,7 +87,9 @@ export default class Preroll extends AdState {
   noPreroll() {
     this.afterLoadStart(() => {
       this.player.ads.debug('Skipping prerolls due to nopreroll event (Preroll)');
-      this.transitionTo(ContentPlayback);
+
+      this.resumingAfterNoAd = true;
+      this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
     });
   }
 
@@ -121,7 +125,8 @@ export default class Preroll extends AdState {
     player.ads.debug('adscanceled (Preroll)');
 
     this.afterLoadStart(() => {
-      this.transitionTo(ContentPlayback);
+      this.resumingAfterNoAd = true;
+      this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
     });
   }
 
@@ -138,7 +143,8 @@ export default class Preroll extends AdState {
     }
 
     this.afterLoadStart(() => {
-      this.transitionTo(ContentPlayback);
+      this.resumingAfterNoAd = true;
+      this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
     });
   }
 
@@ -193,7 +199,9 @@ export default class Preroll extends AdState {
       this.afterLoadStart(() => {
         player.trigger('adskip');
         player.ads.debug('skipLinearAdMode (Preroll)');
-        this.transitionTo(ContentPlayback);
+
+        this.resumingAfterNoAd = true;
+        this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
       });
     }
   }
@@ -204,7 +212,9 @@ export default class Preroll extends AdState {
   onAdTimeout(player) {
     this.afterLoadStart(() => {
       player.ads.debug('adtimeout (Preroll)');
-      this.transitionTo(ContentPlayback);
+
+      this.resumingAfterNoAd = true;
+      this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
     });
   }
 
@@ -217,6 +227,10 @@ export default class Preroll extends AdState {
     } else {
       this.noPreroll();
     }
+  }
+
+  isResumingAfterNoAd() {
+    return this.resumingAfterNoAd;
   }
 
   /*

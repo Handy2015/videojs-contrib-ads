@@ -8,7 +8,9 @@ import {ContentState, Midroll, Postroll} from '../states.js';
  */
 export default class ContentPlayback extends ContentState {
 
-  init(player) {
+  init(player, resumingAfterNoAd) {
+    this.resumingAfterNoAd = resumingAfterNoAd;
+
     // eslint-disable-next-line no-console
     console.log('*$*', '_playRequested', player.ads._playRequested,
       '_shouldBlockPlay', player.ads._shouldBlockPlay,
@@ -27,6 +29,10 @@ export default class ContentPlayback extends ContentState {
       // TODO: test playlists
       player.play();
     }
+  }
+
+  isResumingAfterNoAd() {
+    return this.resumingAfterNoAd;
   }
 
   /*
