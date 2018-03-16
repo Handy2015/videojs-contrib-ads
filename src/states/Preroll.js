@@ -245,8 +245,6 @@ export default class Preroll extends AdState {
 
     player.removeClass('vjs-ad-loading');
     player.clearTimeout(this._timeout);
-
-    this._hasThereBeenAdPlaying = false;
   }
 
 }
