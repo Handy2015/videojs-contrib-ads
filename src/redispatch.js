@@ -76,6 +76,8 @@ const handleEnded = (player, event) => {
     // The true ended event fired either after the postroll
     // or because there was no postroll.
     if (player.ads.isContentResuming()) {
+      // eslint-disable-next-line no-console
+      console.log('***** ', event.type, 'seen');
       return;
     }
 
@@ -85,6 +87,9 @@ const handleEnded = (player, event) => {
   // Prefix ended due to content ending before preroll check
   } else if (!player.ads._contentHasEnded) {
     prefixEvent(player, 'content', event);
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('***** ', event.type, 'seen');
   }
 };
 

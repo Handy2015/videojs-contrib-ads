@@ -9,7 +9,7 @@ import {ContentState, Midroll, Postroll} from '../states.js';
 export default class ContentPlayback extends ContentState {
 
   init(player, resumingAfterNoPreroll) {
-    this.resumingAfterNoPreroll = resumingAfterNoPreroll;
+    this.resumingAfterNoPreroll = resumingAfterNoPreroll || false;
 
     // eslint-disable-next-line no-console
     console.log('*$*', '_playRequested', player.ads._playRequested,
