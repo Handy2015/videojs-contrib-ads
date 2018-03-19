@@ -89,7 +89,7 @@ export default class State {
   /*
    * Overriden by BeforePrerollState, PrerollState and ContentPlaybackState.
    */
-  isResumingAfterNoAd() {
+  isResumingAfterNoPreroll() {
     return false;
   }
 

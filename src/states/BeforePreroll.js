@@ -11,7 +11,7 @@ export default class BeforePreroll extends ContentState {
 
   init(player) {
     this.adsReady = false;
-    this.resumingAfterNoAd = false;
+    this.resumingAfterNoPreroll = false;
 
     player.ads._shouldBlockPlay = true;
   }
@@ -33,7 +33,6 @@ export default class BeforePreroll extends ContentState {
     player.ads.debug('Received play event (BeforePreroll)');
 
     // Don't start content playback yet
-    // player.ads._shouldBlockPlay = false;
     cancelContentPlay(player);
 
     // Check for prerolls
@@ -46,16 +45,16 @@ export default class BeforePreroll extends ContentState {
   onAdsCanceled(player) {
     player.ads.debug('adscanceled (BeforePreroll)');
 
-    this.resumingAfterNoAd = true;
-    this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
+    this.resumingAfterNoPreroll = true;
+    this.transitionTo(ContentPlayback, this.resumingAfterNoPreroll);
   }
 
   /*
    * An ad error occured. Play content instead.
    */
   onAdsError() {
-    this.resumingAfterNoAd = true;
-    this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
+    this.resumingAfterNoPreroll = true;
+    this.transitionTo(ContentPlayback, this.resumingAfterNoPreroll);
   }
 
   /*
@@ -64,12 +63,12 @@ export default class BeforePreroll extends ContentState {
   onNoPreroll() {
     this.player.ads.debug('Skipping prerolls due to nopreroll event (BeforePreroll)');
 
-    this.resumingAfterNoAd = true;
-    this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
+    this.resumingAfterNoPreroll = true;
+    this.transitionTo(ContentPlayback, this.resumingAfterNoPreroll);
   }
 
-  isResumingAfterNoAd() {
-    return this.resumingAfterNoAd;
+  isResumingAfterNoPreroll() {
+    return this.resumingAfterNoPreroll;
   }
 
   /*
@@ -78,9 +77,9 @@ export default class BeforePreroll extends ContentState {
   skipLinearAdMode() {
     const player = this.player;
 
-    this.resumingAfterNoAd = true;
     player.trigger('adskip');
-    this.transitionTo(ContentPlayback, this.resumingAfterNoAd);
+    this.resumingAfterNoPreroll = true;
+    this.transitionTo(ContentPlayback, this.resumingAfterNoPreroll);
   }
 
   /*
