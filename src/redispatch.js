@@ -80,7 +80,13 @@ const handleEnded = (player, event) => {
 
   // Prefix ended due to content ending before preroll check
   } else if (!player.ads._contentHasEnded) {
+
+    // This will change to cancelEvent after the contentended deprecation
+    // period (contrib-ads 7)
     prefixEvent(player, 'content', event);
+
+    // Content ended for the first time, time to check for postrolls
+    player.trigger('readyforpostroll');
   }
 };
 
