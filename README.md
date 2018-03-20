@@ -117,6 +117,7 @@ Deprecated events:
 
 * `contentupdate` (EVENT) -- Replaced by `contentchanged`, which is more reliable.
 * `adscanceled` (EVENT) -- Intended to cancel all ads, it was never fully implemented. Instead, use `nopreroll` and `nopostroll`.
+* `contentended` (EVENT) -- This used to be the event that was used to indicate that content had ended and that it was time to play postrolls. The name was confusing because the content prefix is usually used during content restoration after an ad. Integrations should use `readyforpostroll` instead.
 
 ### Public Methods
 
@@ -543,6 +544,7 @@ A short list of features, fixes and changes for each release is available in [CH
 ### Version 7
 
 * Pause content video if there is a programmatic call to play (prefixed as adplay) while an ad is playing in an ad container (rather than content video element). Prefixing doesn't prevent the videojs behavior, so this would prevent the content from playing behind the ad. Right now, ad integrations I am aware of are doing this on their own, so this would require a migration to move the behavior into this project.
+* `contentended` will change from its current deprecated purpose to being a normal prefixed event during content restoration.
 
 ## License
 
