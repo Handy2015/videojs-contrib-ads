@@ -128,6 +128,7 @@ const contribAdsPlugin = function(options) {
 
   // Keep track of whether a play event has happened
   player.on('play', () => {
+    videojs.log('*$*', '_playRequested about to be set');
     player.ads._playRequested = true;
     // eslint-disable-next-line no-console
     console.log('*$*', '_playRequested set');
