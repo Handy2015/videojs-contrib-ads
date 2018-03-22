@@ -86,7 +86,7 @@ it is initialized. This can happen before or after the `play` event.
 This signals that the integration may begin an ad break by calling `startLinearAdMode`.
 * Integration calls `player.ads.startLinearAdMode()` (METHOD) -- This begins an ad break. During this time, your integration
 plays ads. videojs-contrib-ads does not handle actual ad playback.
-* Integration triggers `ads-ad-started` (EVENT) - Trigger this when each individual ad begins. This removes the loading spinner, which otherwise stays up during the ad break. It's possible for an ad break
+* Integration triggers `ads-ad-started` (EVENT) - Trigger this when each individual ad begins with an event paramter `indexInBreak` that is the zero-based index of the individual ad out of the ads in the ad break. This removes the loading spinner, which otherwise stays up during the ad break. It's possible for an ad break
 to end without an ad starting, in which case the spinner stays up the whole time.
 * Integration calls `player.ads.endLinearAdMode()` (METHOD) -- This ends an ad break. As a result, content will play.
 * Content plays.
@@ -111,6 +111,7 @@ Deprecated events:
 
 * `contentupdate` (EVENT) -- Replaced by `contentchanged`, which is more reliable.
 * `adscanceled` (EVENT) -- Intended to cancel all ads, it was never fully implemented. Instead, use `nopreroll` and `nopostroll`.
+* `adplaying` (EVENT)  -- In the future, this event is no longer guaranteed to happen once per ad break. The `ads-pod-started` event should be used to to detect the beginning of an ad break instead. The `ads-ad-started` event can be used to detect the start of an individual ad in an ad break. There will be multiple `ads-ad-started` events corresponding to each ad in the ad break.
 
 ### Public Methods
 
@@ -156,14 +157,14 @@ Deprecated. Does the same thing as `inAdBreak` but has a misleading name.
 
 This project does not send these events, but these events are a convention used some some integrations that you may want to consider sending for consistency.
 
-#### Events
+#### Events To Be Fired By Integrations
 
 * `ads-request`: Fired when ad data is requested.
 * `ads-load`: Fired when ad data is available following an ad request.
 * `ads-pod-started`: Fired when a LINEAR ad pod has started.
 * `ads-pod-ended`: Fired when a LINEAR ad pod has completed.
 * `ads-allpods-completed`: Fired when all LINEAR ads are completed.
-* `ads-ad-started`: Fired when the ad starts playing.
+* `ads-ad-started`: Fired when the ad starts playing. Should include the event parameter `indexInBreak`.
 * `ads-ad-ended`: Fired when the ad completes playing.
 * `ads-first-quartile`: Fired when the ad playhead crosses first quartile.
 * `ads-midpoint`: Fired when the ad playhead crosses midpoint.
