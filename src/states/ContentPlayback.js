@@ -11,12 +11,6 @@ export default class ContentPlayback extends ContentState {
   init(player, resumingAfterNoPreroll) {
     this.resumingAfterNoPreroll = resumingAfterNoPreroll || false;
 
-    // eslint-disable-next-line no-console
-    console.log('*$*', '_playRequested', player.ads._playRequested,
-      '_shouldBlockPlay', player.ads._shouldBlockPlay,
-      '_cancelledPlay', player.ads._cancelledPlay,
-      '_pausedOnContentupdate', player.ads._pausedOnContentupdate);
-
     // Don't block calls to play in content playback
     player.ads._shouldBlockPlay = false;
 
@@ -25,8 +19,6 @@ export default class ContentPlayback extends ContentState {
     // errored, timed out, etc. Otherwise snapshot restore would play.
     if (player.paused() &&
         (player.ads._playRequested || player.ads._pausedOnContentupdate)) {
-      // TODO: test snapshot restores
-      // TODO: test playlists
       player.play();
     }
   }

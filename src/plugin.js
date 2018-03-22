@@ -128,10 +128,7 @@ const contribAdsPlugin = function(options) {
 
   // Keep track of whether a play event has happened
   player.on('play', () => {
-    videojs.log('*$*', '_playRequested about to be set');
     player.ads._playRequested = true;
-    // eslint-disable-next-line no-console
-    console.log('*$*', '_playRequested set');
   });
 
   player.one('loadstart', () => {
@@ -197,9 +194,6 @@ const contribAdsPlugin = function(options) {
       player.ads._shouldBlockPlay = false;
       player.ads.nopreroll_ = false;
       player.ads.nopostroll_ = false;
-
-      // TODO remove this debug message
-      videojs.log('reset _playRequested');
       player.ads._playRequested = false;
     },
 
