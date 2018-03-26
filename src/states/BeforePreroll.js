@@ -12,6 +12,7 @@ export default class BeforePreroll extends ContentState {
   init(player) {
     this.adsReady = false;
     this.adscanceled = false;
+    this.adskip = false;
 
     player.ads._shouldBlockPlay = true;
   }
@@ -36,7 +37,7 @@ export default class BeforePreroll extends ContentState {
     cancelContentPlay(player);
 
     // Check for prerolls
-    this.transitionTo(Preroll, this.adsReady, this.adscanceled);
+    this.transitionTo(Preroll, this.adsReady, this.adscanceled, this.adskip);
   }
 
   /*
@@ -78,8 +79,10 @@ export default class BeforePreroll extends ContentState {
   skipLinearAdMode() {
     const player = this.player;
 
-    player.trigger('adskip');
-    this.transitionTo(ContentPlayback, true);
+    // player.trigger('adskip');
+    // this.transitionTo(ContentPlayback, true);
+    player.ads.debug('skipLinearAdMode (BeforePreroll)');
+    this.adskip = true;
   }
 
   /*
