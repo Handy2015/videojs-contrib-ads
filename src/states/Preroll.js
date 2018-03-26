@@ -121,7 +121,8 @@ export default class Preroll extends AdState {
     player.ads.debug('adscanceled (Preroll)');
 
     this.afterLoadStart(() => {
-      this.transitionTo(ContentPlayback, true);
+      // this.transitionTo(ContentPlayback, true);
+      this.resumeAfterNoPreroll(player);
     });
   }
 
