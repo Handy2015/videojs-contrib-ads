@@ -8,7 +8,7 @@ import {ContentState, Midroll, Postroll} from '../states.js';
 export default class ContentPlayback extends ContentState {
 
   init(player, resumingAfterNoPreroll) {
-    this.resumingAfterNoPreroll = resumingAfterNoPreroll || false;
+    // this.resumingAfterNoPreroll = resumingAfterNoPreroll || false;
 
     // Don't block calls to play in content playback
     player.ads._shouldBlockPlay = false;
@@ -18,6 +18,8 @@ export default class ContentPlayback extends ContentState {
     // errored, timed out, etc. Otherwise snapshot restore would play.
     if (player.paused() &&
         (player.ads._playRequested || player.ads._pausedOnContentupdate)) {
+      // eslint-disable-next-line: no-console
+      console.log('**** replaying the player');
       player.play();
     }
   }
@@ -26,16 +28,16 @@ export default class ContentPlayback extends ContentState {
    * When there is no preroll, we immediately enter ContentPlayback
    * State, but we are still resuming to content.
    */
-  isResumingAfterNoPreroll() {
-    return this.resumingAfterNoPreroll;
-  }
+  // isResumingAfterNoPreroll() {
+  //   // return this.resumingAfterNoPreroll;
+  // }
 
   /*
    * Reset resumingAfterNoPreroll once the content actually starts playing
    */
-  onPlaying(player) {
-    this.resumingAfterNoPreroll = false;
-  }
+  // onPlaying(player) {
+  //   this.resumingAfterNoPreroll = false;
+  // }
 
   /*
    * In the case of a timeout, adsready might come in late. This assumes the behavior
