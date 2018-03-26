@@ -10,7 +10,7 @@ import adBreak from '../adBreak.js';
  */
 export default class Preroll extends AdState {
 
-  init(player, adsReady, adscanceled, adskip) {
+  init(player, adsReady, adscanceled, adskip, adserror) {
     // Loading spinner from now until ad start or end of ad break.
     player.addClass('vjs-ad-loading');
 
@@ -30,6 +30,9 @@ export default class Preroll extends AdState {
 
     this.adscanceled = adscanceled;
     this.adskip = adskip;
+    if (adserror) {
+      this.onAdsError(player);
+    }
 
     // If adsready already happened, lets get started. Otherwise,
     // wait until onAdsReady.
@@ -54,8 +57,10 @@ export default class Preroll extends AdState {
    * Ad integration is ready. Let's get started on this preroll.
    */
   handleAdsReady() {
+    const player = this.player;
+
     this.adsReady = true;
-    if (this.player.ads.nopreroll_) {
+    if (player.ads.nopreroll_) {
       this.noPreroll();
     } else if (this.adscanceled) {
       this.onAdsCanceled(player);
