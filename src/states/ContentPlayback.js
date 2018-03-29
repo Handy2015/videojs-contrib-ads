@@ -7,7 +7,7 @@ import {ContentState, Midroll, Postroll} from '../states.js';
  */
 export default class ContentPlayback extends ContentState {
 
-  init(player, resumingAfterNoPreroll) {
+  init(player) {
     // Don't block calls to play in content playback
     player.ads._shouldBlockPlay = false;
 
